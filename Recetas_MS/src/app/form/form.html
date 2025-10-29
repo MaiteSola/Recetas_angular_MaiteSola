@@ -1,0 +1,66 @@
+<form (ngSubmit)="onSubmit()" #recipeForm="ngForm">
+  <!-- Título -->
+  <div class="mb-3">
+    <label for="title" class="form-label">Título de la receta</label>
+    <input
+      type="text"
+      class="form-control"
+      id="title"
+      [(ngModel)]="recipe.name"
+      name="title"
+      required
+      #title="ngModel"
+    />
+    <div *ngIf="title.invalid && title.touched" class="text-danger">
+      El título es obligatorio.
+    </div>
+  </div>
+
+  <!-- Ingredientes -->
+  <div class="mb-3">
+    <label class="form-label">Ingredientes</label>
+    <div *ngFor="let ingredient of recipe.ingredients; let i = index" class="input-group mb-2">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="recipe.ingredients[i]"
+        [name]="'ingredient' + i"
+        placeholder="Ej: 2 tazas de harina"
+      />
+      <button type="button" class="btn btn-outline-danger" (click)="removeIngredient(i)">
+        X
+      </button>
+    </div>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="addIngredient()">
+      + Añadir ingrediente
+    </button>
+  </div>
+
+  
+  <!-- Imagen (opcional) -->
+  <div class="mb-3">
+    <label for="image" class="form-label">Imagen (URL)</label>
+    <input
+      type="url"
+      class="form-control"
+      id="image"
+      [(ngModel)]="recipe.imageUrl"
+      name="image"
+      placeholder="https://ejemplo.com/imagen.jpg"
+    />
+  </div>
+
+  <!-- Botones -->
+  <div class="d-flex justify-content-end gap-2">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="recipeForm.invalid"
+    >
+      Guardar Receta
+    </button>
+  </div>
+</form>

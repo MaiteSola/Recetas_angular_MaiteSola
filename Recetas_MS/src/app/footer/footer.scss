@@ -1,0 +1,25 @@
+.footer {
+  background: linear-gradient(180deg, #212529 0%, #1a1d20 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.95rem;
+
+  .footer-logo {
+    max-height: 70px;
+    filter: brightness(0.9);
+    transition: filter 0.3s ease;
+    &:hover {
+      filter: brightness(1.2);
+    }
+  }
+
+  .social-icons {
+    a {
+      font-size: 1.3rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+      &:hover {
+        color: #0d6efd;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
