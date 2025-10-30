@@ -19,7 +19,11 @@
   <!-- Ingredientes -->
   <div class="mb-3">
     <label class="form-label">Ingredientes</label>
-    <div *ngFor="let ingredient of recipe.ingredients; let i = index" class="input-group mb-2">
+
+    <div
+      *ngFor="let ingredient of recipe.ingredients; let i = index; trackBy: trackByIndex"
+      class="input-group mb-2"
+    >
       <input
         type="text"
         class="form-control"
@@ -31,13 +35,13 @@
         X
       </button>
     </div>
+
     <button type="button" class="btn btn-outline-secondary btn-sm" (click)="addIngredient()">
       + Añadir ingrediente
     </button>
   </div>
 
-  
-  <!-- Imagen (opcional) -->
+  <!-- Imagen -->
   <div class="mb-3">
     <label for="image" class="form-label">Imagen (URL)</label>
     <input

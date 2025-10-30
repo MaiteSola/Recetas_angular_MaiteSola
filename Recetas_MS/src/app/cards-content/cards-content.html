@@ -1,0 +1,8 @@
+<div class="cards-container">
+  <app-card
+    *ngFor="let recipe of recipes(); let i = index"
+    [recipe]="recipe"
+    (click)="onDelete(i)">
+  </app-card>
+ 
+</div>

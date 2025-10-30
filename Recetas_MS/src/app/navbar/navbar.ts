@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, output, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Form } from "../form/form";
 import { Recipe } from '../models/recetaModel';
@@ -11,8 +11,10 @@ import { Recipe } from '../models/recetaModel';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-@Output() search = new EventEmitter<string>();
-  @Output() recipeCreated = new EventEmitter<Recipe>(); // AÑADIDO
+// @Output() search = new EventEmitter<string>();
+search = output<string>();
+  // @Output() recipeCreated = new EventEmitter<Recipe>(); // AÑADIDO
+  recipeCreated = output<Recipe>();
 
   searchTerm = '';
   activeSection = 'inicio';

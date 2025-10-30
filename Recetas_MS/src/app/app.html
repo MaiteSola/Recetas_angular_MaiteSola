@@ -1,12 +1,18 @@
 <app-navbar
   (search)="filterRecipes($event)"
-  (recipeCreated)="addRecipe($event)"
+  (recipeCreated)="onAddRecipe($event)"
 ></app-navbar>
 
-<main style="padding-top: 80px;">
+<main>
   <section id="inicio" class="py-5">
     <h1>Recetas de Maite</h1>
   </section>
+
+  <app-cards-content
+  [recipes]="recipes"
+  (delete)="onDeleteRecipe($event)"
+  (add)="onAddRecipe($event)">
+</app-cards-content>
 
   <section id="recetas" class="py-5">
     <h2>Mis Recetas ({{ recipes.length }})</h2>
@@ -14,7 +20,7 @@
       <div class="card-body">
         <h5>{{ r.name }}</h5>
         <p><strong>Ingredientes:</strong> {{ r.ingredients.join(', ') }}</p>
-        <img alt=""*ngIf="r.imageUrl" [src]="r.imageUrl" style="max-width: 200px;">
+        <img alt="" *ngIf="r.imageUrl" [src]="r.imageUrl">
       </div>
     </div>
   </section>

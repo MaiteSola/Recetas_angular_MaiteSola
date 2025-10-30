@@ -1,0 +1,109 @@
+  .card-img-top {
+    height: 180px; // <-- todas las imágenes tendrán esta altura
+    width: 100%;
+    object-fit: cover; // mantiene proporción y recorta el exceso
+    object-position: center; // centra la imagen dentro del recorte
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+ 
+  .container{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .receta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+
+.receta-form h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #333;
+}
+
+input[type="text"],
+input[type="file"] {
+  margin-top: 4px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button[type="submit"] {
+  background-color: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: #15803d;
+}
+
+/* Tags de ingredientes */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px;
+  background-color: white;
+}
+
+.tag {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 4px 8px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tag button {
+  border: none;
+  background: transparent;
+  color: #047857;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Imagen */
+.imagen-preview {
+  text-align: center;
+}
+
+.imagen-preview img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+
