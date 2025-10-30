@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, input, output} from '@angular/core';
 import { Recipe } from '../models/recetaModel';
 
 @Component({
@@ -9,11 +9,8 @@ import { Recipe } from '../models/recetaModel';
 })
 export class Card {
 
-  @Input() recipe!: Recipe;
-  //recipe = input<Recipe>();
-  //delete = output<void>();
-
- @Output() delete = new EventEmitter<void>();
+  recipe = input.required<Recipe>();
+  delete = output<void>();
 
   onDelete() {
     this.delete.emit();

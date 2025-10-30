@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { Recipe } from '../models/recetaModel';
 import { Card } from "../card/card";
 
@@ -12,21 +12,11 @@ import { Card } from "../card/card";
   styleUrl: './cards-content.scss',
 })
 export class CardsContent {
-// 👇 Recibe la lista desde el padre (solo lectura)
-  recipes = input<Recipe[]>([]);
-
-  // 👇 Emite eventos al padre
+recipes = input.required<Recipe[]>();
   delete = output<number>();
-  add = output<Recipe>();
 
-  // 🔹 Llamado al pulsar un botón "Eliminar"
   onDelete(index: number) {
     this.delete.emit(index);
-  }
-
-  // 🔹 Llamado al pulsar un botón "Añadir receta"
-  onAddRecipe(newRecipe: Recipe) {
-    this.add.emit(newRecipe);
   }
 
 }

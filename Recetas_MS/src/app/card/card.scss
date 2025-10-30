@@ -1,0 +1,14 @@
+.card-img-top {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* h-100 ya está en la clase card */

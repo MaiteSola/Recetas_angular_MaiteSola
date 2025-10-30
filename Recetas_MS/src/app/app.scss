@@ -1,6 +1,15 @@
 main {
-  padding-top: 80px;
+  padding-top: 30px;
 }
 .py-5 img {
-  max-width: 200px;
+  max-width: 250px;
+}
+
+html, body, app-root {
+  height: 100%;
+  margin: 0;
+}
+
+main {
+  min-height: 100vh;
 }

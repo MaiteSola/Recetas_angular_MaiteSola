@@ -1,22 +1,20 @@
-  .card-img-top {
-    height: 180px; // <-- todas las imágenes tendrán esta altura
-    width: 100%;
-    object-fit: cover; // mantiene proporción y recorta el exceso
-    object-position: center; // centra la imagen dentro del recorte
-  }
+/* Mantener estilos de las imágenes y el body de la card */
+.card-img-top {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
+.card-body {
  
-  .container{
-    display: flex;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 
-  }
+/* No tocar .container ni .row, así funciona la grilla de Bootstrap */
+
 
   .receta-form {
   display: flex;

@@ -14,12 +14,10 @@ import { CommonModule } from '@angular/common';
 
 // TODO:
 export class App {
-onChildDelete($event: number) {
- this.recipes = this.recipes.filter((_, i) => i !== $event);
-}
+
   protected readonly title = signal('Recetas_MS');
   
-   recipes: Recipe[] = [
+   recipes = signal<Recipe[]>([
     {
       name: 'Pasta Boloñesa',
       ingredients: ['Pasta', 'Tomate', 'Cebolla', 'Carne picada'],
@@ -40,24 +38,14 @@ onChildDelete($event: number) {
       ingredients: ['Aguacate', 'Cebolla', 'Huevo', 'Garbanzos'],
       imageUrl: './img/aguacateasado.jpg',
     },
-  ];
+  ]);
 
-  // Recibe el índice de la receta a eliminar desde el hijo
   onDeleteRecipe(index: number) {
-    this.recipes = this.recipes.filter((_, i) => i !== index);
+    this.recipes.update(recs => recs.filter((_, i) => i !== index));
   }
 
-  // Recibe una nueva receta desde el hijo
   onAddRecipe(newRecipe: Recipe) {
-    this.recipes = [...this.recipes, newRecipe];
-  }
-
-   
-
-  //Mirar si me hacen falta estos dos
-  filterRecipes(term: string) {
-    console.log('Buscar:', term);
-    // Aquí filtrarás más tarde
+    this.recipes.update(recs => [...recs, newRecipe]);
   }
   
  
