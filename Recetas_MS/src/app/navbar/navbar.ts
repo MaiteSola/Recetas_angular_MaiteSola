@@ -11,36 +11,49 @@ import { Recipe } from '../models/recetaModel';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-// @Output() search = new EventEmitter<string>();
-search = output<string>();
-  // @Output() recipeCreated = new EventEmitter<Recipe>(); // AÑADIDO
+ search = output<string>();
   recipeCreated = output<Recipe>();
 
   searchTerm = '';
   activeSection = 'inicio';
   showModal = false;
 
-  onSearch() {
-    this.search.emit(this.searchTerm.trim());
+  // 🔹 Control del menú hamburguesa
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
+  // 🔹 Modal
   openModal() {
     this.showModal = true;
+    this.closeMenu();
   }
 
   closeModal() {
     this.showModal = false;
   }
 
+  onSaveRecipe(recipe: Recipe) {
+    this.recipeCreated.emit(recipe);
+    this.closeModal();
+  }
+
+  // 🔹 Búsqueda
+  onSearch() {
+    this.search.emit(this.searchTerm.trim());
+  }
+
+  // 🔹 Scroll
   scrollTo(section: string) {
     this.activeSection = section;
     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  onSaveRecipe(recipe: Recipe) {
-    console.log('Receta guardada en navbar:', recipe);
-    this.recipeCreated.emit(recipe); // Emite al padre
-    this.closeModal();
+    this.closeMenu();
   }
 
 }
