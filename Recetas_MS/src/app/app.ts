@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Navbar } from './navbar/navbar';
 import { Footer } from './footer/footer';
 import { Recipe } from './models/recetaModel';
@@ -7,17 +7,17 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [Navbar, Footer, CardsContent,CommonModule],
+  imports: [Navbar, Footer, CardsContent, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 
 // TODO:
 export class App {
+  title = signal('Recetas_MS');
 
-  protected readonly title = signal('Recetas_MS');
-  
-   recipes = signal<Recipe[]>([
+  // 🔹 Lista principal de recetas (signal)
+  recipes = signal<Recipe[]>([
     {
       name: 'Pasta Boloñesa',
       ingredients: ['Pasta', 'Tomate', 'Cebolla', 'Carne picada'],
@@ -40,26 +40,27 @@ export class App {
     },
   ]);
 
-  
-
-  onAddRecipe(newRecipe: Recipe) {
-    this.recipes.update(recs => [...recs, newRecipe]);
-  }
-  
-
-  // 🔹 Lista filtrada (por defecto, todas)
+  // 🔹 Lista filtrada (se inicializa con todas)
   filteredRecipes = this.recipes();
 
+  // Añadir nueva receta
+  onAddRecipe(newRecipe: Recipe) {
+    this.recipes.update((recs) => [...recs, newRecipe]);
+    this.filteredRecipes = this.recipes(); // refrescar vista tras añadir
+  }
+
+  // Filtrar recetas por nombre
   onSearch(term: string) {
     const searchTerm = term.toLowerCase();
-    this.filteredRecipes = this.recipes().filter(recipe =>
+    this.filteredRecipes = this.recipes().filter((recipe) =>
       recipe.name.toLowerCase().includes(searchTerm)
     );
   }
 
-   onDeleteRecipe(index: number) {
+  // Eliminar receta por índice
+  onDeleteRecipe(index: number) {
     const updated = this.filteredRecipes.filter((_, i) => i !== index);
     this.filteredRecipes = updated;
+    this.recipes.set(updated);
   }
- 
 }

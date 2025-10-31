@@ -10,55 +10,81 @@ import { CommonModule } from '@angular/common';
   styleUrl: './form.scss',
 })
 export class Form {
-
+  
   save = output<Recipe>();
-  cancel = output<void>();
-// @Output() save = new EventEmitter<Recipe>();
-//   @Output() cancel = new EventEmitter<void>();
 
-   // Modelo reactivo del formulario
   recipe: Recipe = {
     name: '',
     ingredients: [''],
     imageUrl: ''
   };
 
-  // 🔹 Añadir ingrediente sin perder foco
-  addIngredient() {
-    this.recipe.ingredients.push('');
+  // Estado de errores (simulando validaciones "servidor")
+  errors = {
+    name: false,
+    ingredients: false,
+    imageUrl: false,
+  };
+
+  showGeneralError = false;
+
+  canAddIngredient(): boolean {
+    if (this.recipe.ingredients.length === 0) return true;
+    const last = this.recipe.ingredients.at(-1);
+    return !!last && last.trim().length > 0;
   }
 
-  // 🔹 Eliminar ingrediente
+  addIngredient() {
+    if (this.canAddIngredient()) {
+      this.recipe.ingredients.push('');
+    }
+  }
+
   removeIngredient(index: number) {
     this.recipe.ingredients.splice(index, 1);
+    if (this.recipe.ingredients.length === 0) {
+      this.recipe.ingredients.push('');
+    }
   }
 
-  // 🔹 Evitar recrear los inputs
-  trackByIndex(index: number, item: string) {
-    return index;
-  }
-
-  // 🔹 Enviar formulario
-  onSubmit() {
-    const cleanRecipe: Recipe = {
-      ...this.recipe,
-      ingredients: this.recipe.ingredients.filter(i => i.trim()),
+  // 🔹 Simula validación de "servidor"
+  validateRecipe(): boolean {
+    this.errors = {
+      name: this.recipe.name.trim() === '',
+      ingredients: !this.recipe.ingredients.some((i) => i.trim() !== ''),
+      imageUrl: this.recipe.imageUrl.trim() === '',
     };
+
+    return !this.errors.name && !this.errors.ingredients && !this.errors.imageUrl;
+  }
+
+  onSubmit() {
+    this.showGeneralError = false;
+
+    const isValid = this.validateRecipe();
+
+    if (!isValid) {
+      this.showGeneralError = true;
+      return;
+    }
+
+    // “Envía” al servidor (emit)
+    const cleanRecipe: Recipe = {
+      name: this.recipe.name.trim(),
+      ingredients: this.recipe.ingredients.filter((i) => i.trim() !== ''),
+      imageUrl: this.recipe.imageUrl.trim(),
+    };
+
     this.save.emit(cleanRecipe);
-    this.resetForm();
+
+    // Reset
+    this.recipe = { name: '', ingredients: [''], imageUrl: '' };
+    this.errors = { name: false, ingredients: false, imageUrl: false };
   }
 
-  // 🔹 Cancelar
   onCancel() {
-    this.cancel.emit();
-    this.resetForm();
+    this.recipe = { name: '', ingredients: [''], imageUrl: '' };
+    this.errors = { name: false, ingredients: false, imageUrl: false };
+    this.showGeneralError = false;
   }
-
-  // 🔹 Limpiar formulario sin perder referencias
-  private resetForm() {
-    this.recipe.name = '';
-    this.recipe.ingredients = [''];
-    this.recipe.imageUrl = '';
-  }
-
 }

@@ -1,5 +1,6 @@
 <form (ngSubmit)="onSubmit()" #recipeForm="ngForm">
-  <!-- Título -->
+
+  <!-- 🔹 Título -->
   <div class="mb-3">
     <label for="title" class="form-label">Título de la receta</label>
     <input
@@ -8,63 +9,85 @@
       id="title"
       [(ngModel)]="recipe.name"
       name="title"
-      required
-      #title="ngModel"
+      placeholder="Ej: Ensaladilla rusa"
     />
-    <div *ngIf="title.invalid && title.touched" class="text-danger">
-      El título es obligatorio.
-    </div>
+
+    @if (errors.name) {
+      <div class="text-danger mt-1">⚠️ El título es obligatorio.</div>
+    }
   </div>
 
-  <!-- Ingredientes -->
+  <!-- 🔹 Ingredientes -->
   <div class="mb-3">
     <label class="form-label">Ingredientes</label>
 
-    <div
-      *ngFor="let ingredient of recipe.ingredients; let i = index; trackBy: trackByIndex"
-      class="input-group mb-2"
-    >
-      <input
-        type="text"
-        class="form-control"
-        [(ngModel)]="recipe.ingredients[i]"
-        [name]="'ingredient' + i"
-        placeholder="Ej: 2 tazas de harina"
-      />
-      <button type="button" class="btn btn-outline-danger" (click)="removeIngredient(i)">
-        X
-      </button>
-    </div>
+    @for (ingredient of recipe.ingredients; track $index) {
+      <div class="input-group mb-2">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="recipe.ingredients[$index]"
+          [name]="'ingredient' + $index"
+          placeholder="Ej: 2 tazas de harina"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="removeIngredient($index)"
+        >
+          X
+        </button>
+      </div>
+    }
 
-    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="addIngredient()">
+    <button
+      type="button"
+      class="btn btn-outline-secondary btn-sm"
+      (click)="addIngredient()"
+      [disabled]="!canAddIngredient()"
+    >
       + Añadir ingrediente
     </button>
+
+    @if (errors.ingredients) {
+      <div class="text-danger mt-2">⚠️ Debes añadir al menos un ingrediente válido.</div>
+    }
+
+    @if (!canAddIngredient()) {
+      <div class="text-muted mt-1">✋ Escribe un ingrediente antes de añadir otro.</div>
+    }
   </div>
 
-  <!-- Imagen -->
+  <!-- 🔹 Imagen -->
   <div class="mb-3">
     <label for="image" class="form-label">Imagen (URL)</label>
     <input
-      type="url"
+      type="text"
       class="form-control"
       id="image"
       [(ngModel)]="recipe.imageUrl"
       name="image"
       placeholder="https://ejemplo.com/imagen.jpg"
     />
+
+    @if (errors.imageUrl) {
+      <div class="text-danger mt-1">⚠️ Debes introducir una URL de imagen.</div>
+    }
   </div>
 
-  <!-- Botones -->
+  <!-- 🔹 Botones -->
   <div class="d-flex justify-content-end gap-2">
     <button type="button" class="btn btn-secondary" (click)="onCancel()">
       Cancelar
     </button>
-    <button
-      type="submit"
-      class="btn btn-primary"
-      [disabled]="recipeForm.invalid"
-    >
+    <button type="submit" class="btn btn-primary">
       Guardar Receta
     </button>
   </div>
+
+  @if (showGeneralError) {
+    <div class="alert alert-danger mt-3">
+      ⚠️ Corrige los errores antes de guardar la receta.
+    </div>
+  }
 </form>

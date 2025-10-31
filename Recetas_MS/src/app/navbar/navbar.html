@@ -3,22 +3,14 @@
     <a class="navbar-brand fw-bold" href="#">Recetas de Maite</a>
 
     <!-- 🔹 Botón hamburguesa -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)="toggleMenu()"
-    >
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- 🔹 Menú colapsable -->
-    <div
-      class="collapse navbar-collapse"
-      [class.show]="menuOpen"
-      id="navbarMenu"
-    >
+    <div class="collapse navbar-collapse" [class.show]="menuOpen" id="navbarMenu">
       <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-        
+
         <li class="nav-item">
           <a class="nav-link" [class.active]="activeSection === 'recetas'" (click)="scrollTo('recetas')">Recetas</a>
         </li>
@@ -30,14 +22,9 @@
       </ul>
 
       <div class="d-flex">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Buscar receta..."
-          [(ngModel)]="searchTerm"
-          (input)="onSearch()"
-        />
-        
+        <input class="form-control me-2" type="search" placeholder="Buscar receta..." [(ngModel)]="searchTerm"
+          (input)="onSearch()" />
+
       </div>
     </div>
   </div>
@@ -51,10 +38,7 @@
       <button class="close-btn" (click)="closeModal()">X</button>
     </div>
     <div class="modal-body">
-      <app-form
-        (save)="onSaveRecipe($event)"
-        (cancel)="closeModal()"
-      ></app-form>
+      <app-form (save)="onSaveRecipe($event)" (cancel)="closeModal()"></app-form>
     </div>
   </div>
 </div>

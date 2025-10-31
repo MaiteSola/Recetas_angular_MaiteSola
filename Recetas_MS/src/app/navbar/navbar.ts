@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, output, Output } from '@angular/core';
+import { Component, output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Form } from "../form/form";
+import { Form } from '../form/form';
 import { Recipe } from '../models/recetaModel';
 
 @Component({
@@ -11,7 +11,7 @@ import { Recipe } from '../models/recetaModel';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
- search = output<string>();
+  search = output<string>();
   recipeCreated = output<Recipe>();
 
   searchTerm = '';
@@ -44,16 +44,15 @@ export class Navbar {
     this.closeModal();
   }
 
-  // 🔹 Búsqueda
+  // Búsqueda
   onSearch() {
     this.search.emit(this.searchTerm.trim());
   }
 
-  // 🔹 Scroll
+  // Scroll
   scrollTo(section: string) {
     this.activeSection = section;
     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
     this.closeMenu();
   }
-
 }
