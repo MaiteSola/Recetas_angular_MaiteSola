@@ -1,59 +1,117 @@
-# RecetasMS
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+# Recetas
 
-## Development server
+Aplicación desarrollada en Angular para la gestión y visualización de recetas de cocina.
+Incluye un diseño limpio y adaptable con Bootstrap, y una estructura modular para facilitar el mantenimiento y escalabilidad del proyecto.
 
-To start a local development server, run:
 
-```bash
+
+
+## 🔗 Github
+Primero descarga el proyecto desde github:
+https://github.com/MaiteSola/Recetas_angular_MaiteSola.git
+Accede al directorio del proyecto:
+cd Recetas_angular_MaiteSola
+
+
+## Requisitos previos
+
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
+
+### Node.js
+ (versión recomendada: LTS 18 o superior)
+Verifica la instalación con:
+
+node -v
+npm -v
+
+ 
+### [Angular.CLI](https://v17.angular.io/cli)
+
+Instalalo globalmente si no lo tienes:
+npm install -g @angular/CLI
+
+Verifica la instalación
+ng version
+
+## Instalación de dependencias
+
+Dentro del directorio del proyecto, ejecuta:
+
+npm install
+
+Esto descargará todas las dependencias necesarias indicadas en el archivo package.json.
+
+
+## Instalación y configuración de Bootstrap
+
+Este proyecto utiliza Bootstrap para el diseño y la maquetación.
+Si deseas confirmar o reinstalar Bootstrap, sigue estos pasos:
+
+### Instalar Bootstrap
+1. Ejecuta:
+npm install bootstrap
+
+### Verificar la importación
+Abre el archivo angular.json y asegúrate de tener las rutas de estilos y scripts configuradas correctamente.
+Debe verse algo así:
+
+"styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "src/styles.css"
+],
+"scripts": [
+  "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+]
+⚠️ Si ya aparecen estas rutas, no es necesario volver a instalarlas.
+
+### Reiniciar el servidor
+
+Tras los cambios, ejecuta el servidor nuevamente:
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+### Ejecutar el proyecto
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Para ejecutar el proyecto en modo desarrollo:
+ng serve
 
-```bash
-ng generate component component-name
-```
+2. Luego abre tu navegador en:
+http://localhost:4200/
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Estructura del Proyecto
 
 ```bash
-ng generate --help
+src/
+├── app/
+│   ├── card/              # Componente para mostrar una tarjeta individual de receta
+│   ├── cards-content/     # Contenedor de múltiples tarjetas de recetas
+│   ├── footer/            # Pie de página del sitio
+│   ├── form/              # Formulario para agregar o editar recetas
+│   ├── models/            # Definición de interfaces o clases de datos (por ejemplo, modelo Receta)
+│   ├── navbar/            # Barra de navegación principal
+│   └── app.component.*    # Componente raíz del proyecto
+├── assets/                # Recursos estáticos (imágenes, íconos, etc.)
+├── environments/          # Configuraciones de entorno (desarrollo y producción)
+├── index.html
+├── main.ts
+└── styles.css
 ```
 
-## Building
 
-To build the project run:
 
-```bash
-ng build
-```
+## Descripción de componentes
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+#### Card	
+Muestra la información de una receta individual (imagen, título, descripción, etc.).
+#### Cards-content	
+Renderiza un conjunto de tarjetas (card) en formato grid o listado.
+#### Footer	
+Contiene el pie de página del sitio con créditos o enlaces.
+#### Form
+Permite agregar, editar o eliminar recetas mediante un formulario reactivo.
+#### Models	
+Define las interfaces y clases utilizadas en la aplicación (por ejemplo, Receta).
+#### Navbar
+Barra superior de navegación con enlaces o botones para moverse entre secciones.
