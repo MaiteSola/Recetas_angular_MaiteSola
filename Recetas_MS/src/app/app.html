@@ -1,5 +1,5 @@
 <app-navbar
-  
+  (search)="onSearch($event)"
   (recipeCreated)="onAddRecipe($event)"
 ></app-navbar>
 
@@ -8,6 +8,7 @@
 
     <!-- Contenido de recetas -->
     <app-cards-content
+    [recipes]="filteredRecipes"
       [recipes]="recipes()"
       (delete)="onDeleteRecipe($event)">
     </app-cards-content>

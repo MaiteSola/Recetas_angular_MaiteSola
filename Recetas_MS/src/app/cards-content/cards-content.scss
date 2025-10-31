@@ -7,14 +7,10 @@
 }
 
 .card-body {
- 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
-
-/* No tocar .container ni .row, así funciona la grilla de Bootstrap */
-
 
   .receta-form {
   display: flex;

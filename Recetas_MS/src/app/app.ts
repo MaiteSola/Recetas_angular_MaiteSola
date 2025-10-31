@@ -40,13 +40,26 @@ export class App {
     },
   ]);
 
-  onDeleteRecipe(index: number) {
-    this.recipes.update(recs => recs.filter((_, i) => i !== index));
-  }
+  
 
   onAddRecipe(newRecipe: Recipe) {
     this.recipes.update(recs => [...recs, newRecipe]);
   }
   
+
+  // 🔹 Lista filtrada (por defecto, todas)
+  filteredRecipes = this.recipes();
+
+  onSearch(term: string) {
+    const searchTerm = term.toLowerCase();
+    this.filteredRecipes = this.recipes().filter(recipe =>
+      recipe.name.toLowerCase().includes(searchTerm)
+    );
+  }
+
+   onDeleteRecipe(index: number) {
+    const updated = this.filteredRecipes.filter((_, i) => i !== index);
+    this.filteredRecipes = updated;
+  }
  
 }
