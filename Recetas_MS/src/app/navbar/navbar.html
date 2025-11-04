@@ -22,23 +22,29 @@
       </ul>
 
       <div class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar receta..." [(ngModel)]="searchTerm"
-          (input)="onSearch()" />
-
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Buscar receta..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+        />
       </div>
     </div>
   </div>
 </nav>
 
-<!-- Modal -->
-<div *ngIf="showModal" class="custom-modal-backdrop" (click)="closeModal()">
-  <div class="custom-modal" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h5>Crear Nueva Receta</h5>
-      <button class="close-btn" (click)="closeModal()">X</button>
-    </div>
-    <div class="modal-body">
-      <app-form (save)="onSaveRecipe($event)" (cancel)="closeModal()"></app-form>
+
+@if (showModal) {
+  <div class="custom-modal-backdrop" (click)="closeModal()">
+    <div class="custom-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h5>Crear Nueva Receta</h5>
+        <button class="close-btn" (click)="closeModal()">X</button>
+      </div>
+      <div class="modal-body">
+        <app-form (save)="onSaveRecipe($event)" (cancel)="closeModal()"></app-form>
+      </div>
     </div>
   </div>
-</div>
+}
