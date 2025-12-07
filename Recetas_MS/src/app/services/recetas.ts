@@ -19,19 +19,28 @@ private apiUrl = 'https://69303d7e778bbf9e00708054.mockapi.io/recetas/listaRecet
 
   // Aquí guardaremos lo que escribas en el buscador del Navbar
   searchTerm = signal('');
+  minRating = signal(0); //Este el filtro de estrellas 0=todas
 
 
   // 3. SELECTOR (Computed): La lista filtrada
   // Esta variable se recalcula SOLA si cambia _recetas O cambia searchTerm
-  recetasFiltradas = computed(() => {
+ recetasFiltradas = computed(() => {
     const term = this.searchTerm().toLowerCase();
+    const ratingFilter = this.minRating(); // <--- Leemos la señal
     const lista = this._recetas();
 
-    // Si no hay búsqueda, devuelve todo. Si hay, filtra.
-    if (!term) return lista;
-    return lista.filter(r => r.nombre.toLowerCase().includes(term));
+    return lista.filter(r => {
+      const coincideNombre = r.nombre.toLowerCase().includes(term);
+      const coincideRating = (r.rating || 0) >= ratingFilter; // <--- Filtro
+      return coincideNombre && coincideRating;
+    });
   });
 
+  
+  filtrarPorEstrellas(estrellas: number) {
+    this.minRating.set(estrellas);
+    console.log('Filtro actualizado a:', estrellas); 
+  }
 
   constructor(){
 
