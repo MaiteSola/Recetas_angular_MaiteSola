@@ -1,5 +1,6 @@
-import { Component, input, output} from '@angular/core';
-import { Recipe } from '../models/recetaModel';
+import { Component, inject, Input, input, output} from '@angular/core';
+import { Receta } from '../models/recetaModel';
+import { RecetasService } from '../services/recetas';
 
 @Component({
   selector: 'app-card',
@@ -9,10 +10,13 @@ import { Recipe } from '../models/recetaModel';
 })
 export class Card {
 
-  recipe = input.required<Recipe>();
-  delete = output<void>();
+  // Recibe la receta individual del bucle del contenedor
+  recipe = input.required<Receta>();
 
-  onDelete() {
-    this.delete.emit();
+  // Si quieres borrar desde la card, inyectas el servicio AQUÍ también
+  private recetasService = inject(RecetasService);
+
+  eliminar() {
+    this.recetasService.borrarReceta(this.recipe().id);
   }
 }

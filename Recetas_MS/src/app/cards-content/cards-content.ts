@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, input, output } from '@angular/core';
-import { Recipe } from '../models/recetaModel';
+import { Component, inject } from '@angular/core';
 import { Card } from "../card/card";
+import { RecetasService } from '../services/recetas';
 
 
 
@@ -12,11 +12,14 @@ import { Card } from "../card/card";
   styleUrl: './cards-content.scss',
 })
 export class CardsContent {
-recipes = input.required<Recipe[]>();
-  delete = output<number>();
+  private recetasService = inject(RecetasService);
 
-  onDelete(index: number) {
-    this.delete.emit(index);
+  // CONECTAMOS A LA LISTA FILTRADA
+  listaRecetas = this.recetasService.recetasFiltradas;
+
+  // 3. Gestionamos el borrado llamando al servicio
+  onDelete(id: number) {
+    this.recetasService.borrarReceta(id);
   }
 
 }

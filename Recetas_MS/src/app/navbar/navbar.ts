@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, output} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Form } from '../form/form';
-import { Recipe } from '../models/recetaModel';
+import { Receta } from '../models/recetaModel';
+import { RecetasService } from '../services/recetas';
 
 @Component({
   selector: 'app-navbar',
@@ -11,48 +12,25 @@ import { Recipe } from '../models/recetaModel';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  search = output<string>();
-  recipeCreated = output<Recipe>();
-
-  searchTerm = '';
-  activeSection = 'inicio';
-  showModal = false;
-
-  // 🔹 Control del menú hamburguesa
+  private recetasService = inject(RecetasService);
   menuOpen = false;
+  showModal = false;
+  searchTerm = '';
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  closeMenu() {
-    this.menuOpen = false;
-  }
-
-  // 🔹 Modal
   openModal() {
     this.showModal = true;
-    this.closeMenu();
+    this.menuOpen = false;
   }
 
   closeModal() {
     this.showModal = false;
   }
 
-  onSaveRecipe(recipe: Recipe) {
-    this.recipeCreated.emit(recipe);
-    this.closeModal();
-  }
-
-  // Búsqueda
   onSearch() {
-    this.search.emit(this.searchTerm.trim());
-  }
-
-  // Scroll
-  scrollTo(section: string) {
-    this.activeSection = section;
-    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-    this.closeMenu();
+    this.recetasService.buscar(this.searchTerm);
   }
 }

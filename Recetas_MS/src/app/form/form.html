@@ -1,93 +1,79 @@
-<form (ngSubmit)="onSubmit()" #recipeForm="ngForm">
+<form (submit)="$event.preventDefault()"> <h4 class="mb-3 text-primary">Nueva Receta</h4>
 
-  <!-- 🔹 Título -->
   <div class="mb-3">
-    <label for="title" class="form-label">Título de la receta</label>
+    <label class="form-label fw-bold">Nombre:</label>
     <input
       type="text"
       class="form-control"
-      id="title"
-      [(ngModel)]="recipe.name"
-      name="title"
-      placeholder="Ej: Ensaladilla rusa"
+      [(ngModel)]="nombre"
+      name="nombre"
+      placeholder="Ej: Macarrones con tomate"
+      required
     />
-
-    @if (errors.name) {
-      <div class="text-danger mt-1">⚠️ El título es obligatorio.</div>
-    }
   </div>
 
-  <!-- 🔹 Ingredientes -->
   <div class="mb-3">
-    <label class="form-label">Ingredientes</label>
+    <label class="form-label fw-bold">Ingredientes:</label>
+    
+    <div class="input-group mb-2">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="nuevoIngrediente"
+        name="nuevoIngrediente"
+        (keydown.enter)="addIngrediente(); $event.preventDefault()" 
+        placeholder="Escribe y pulsa Enter o +"
+      />
+      <button 
+        class="btn btn-outline-secondary" 
+        type="button" 
+        (click)="addIngrediente()">
+        +
+      </button>
+    </div>
 
-    @for (ingredient of recipe.ingredients; track $index) {
-      <div class="input-group mb-2">
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="recipe.ingredients[$index]"
-          [name]="'ingredient' + $index"
-          placeholder="Ej: 2 tazas de harina"
-        />
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          (click)="removeIngredient($index)"
-        >
-          X
-        </button>
-      </div>
-    }
-
-    <button
-      type="button"
-      class="btn btn-outline-secondary btn-sm"
-      (click)="addIngredient()"
-      [disabled]="!canAddIngredient()"
-    >
-      + Añadir ingrediente
-    </button>
-
-    @if (errors.ingredients) {
-      <div class="text-danger mt-2">⚠️ Debes añadir al menos un ingrediente válido.</div>
-    }
-
-    @if (!canAddIngredient()) {
-      <div class="text-muted mt-1">✋ Escribe un ingrediente antes de añadir otro.</div>
-    }
+    <ul class="list-group">
+      @for (ing of ingredientes; track $index) {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ ing }}
+          <button 
+            type="button" 
+            class="btn btn-sm btn-danger py-0" 
+            (click)="removeIngrediente($index)">
+            ×
+          </button>
+        </li>
+      }
+      @if (ingredientes.length === 0) {
+        <li class="list-group-item text-muted fst-italic small">
+          No hay ingredientes aún...
+        </li>
+      }
+    </ul>
   </div>
 
-  <!-- 🔹 Imagen -->
   <div class="mb-3">
-    <label for="image" class="form-label">Imagen (URL)</label>
+    <label class="form-label fw-bold">Imagen (URL):</label>
     <input
       type="text"
       class="form-control"
-      id="image"
-      [(ngModel)]="recipe.imageUrl"
-      name="image"
-      placeholder="https://ejemplo.com/imagen.jpg"
+      [(ngModel)]="imagen"
+      name="imagen"
+      placeholder="https://..."
     />
-
-    @if (errors.imageUrl) {
-      <div class="text-danger mt-1">⚠️ Debes introducir una URL de imagen.</div>
-    }
   </div>
 
-  <!-- 🔹 Botones -->
-  <div class="d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <button type="button" class="btn btn-secondary" (click)="cancelar()">
       Cancelar
     </button>
-    <button type="submit" class="btn btn-primary">
-      Guardar Receta
+    
+    <button 
+      type="button" 
+      class="btn btn-primary" 
+      (click)="guardar()"
+      [disabled]="!nombre"> Guardar
     </button>
   </div>
 
-  @if (showGeneralError) {
-    <div class="alert alert-danger mt-3">
-      ⚠️ Corrige los errores antes de guardar la receta.
-    </div>
-  }
 </form>

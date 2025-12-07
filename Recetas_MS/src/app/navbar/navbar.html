@@ -1,50 +1,43 @@
-<nav class="navbar navbar-expand-xl navbar-light bg-light fixed-top w-100" id="inicio">
+<nav class="navbar navbar-expand-xl navbar-light bg-light fixed-top w-100">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="#">Recetas de Maite</a>
 
-    <!-- 🔹 Botón hamburguesa -->
+    <div class="d-flex ms-auto order-xl-last">
+        <input 
+            class="form-control me-2" 
+            type="search" 
+            placeholder="Buscar..." 
+            [(ngModel)]="searchTerm" 
+            (input)="onSearch()">
+    </div>
+
     <button class="navbar-toggler" type="button" (click)="toggleMenu()">
-      <span class="navbar-toggler-icon"></span>
+       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <!-- 🔹 Menú colapsable -->
-    <div class="collapse navbar-collapse" [class.show]="menuOpen" id="navbarMenu">
-      <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-
-        <li class="nav-item">
-          <a class="nav-link" [class.active]="activeSection === 'recetas'" (click)="scrollTo('recetas')">Recetas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)" (click)="openModal()" role="button">
-            Crear receta
-          </a>
-        </li>
-      </ul>
-
-      <div class="d-flex">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Buscar receta..."
-          [(ngModel)]="searchTerm"
-          (input)="onSearch()"
-        />
-      </div>
+    
+    <div class="collapse navbar-collapse" [class.show]="menuOpen">
+       <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+             <a class="nav-link" (click)="openModal()">Nueva Receta</a>
+          </li>
+       </ul>
     </div>
   </div>
 </nav>
 
-
 @if (showModal) {
   <div class="custom-modal-backdrop" (click)="closeModal()">
     <div class="custom-modal" (click)="$event.stopPropagation()">
+      
       <div class="modal-header">
         <h5>Crear Nueva Receta</h5>
         <button class="close-btn" (click)="closeModal()">X</button>
       </div>
+
       <div class="modal-body">
-        <app-form (save)="onSaveRecipe($event)" (cancel)="closeModal()"></app-form>
+        <app-form (cancel)="closeModal()"></app-form>
       </div>
+
     </div>
   </div>
 }
