@@ -1,0 +1,45 @@
+// Título principal
+.titulo-form {
+  margin-bottom: 1.5rem; // Aumentado un poco para separar del primer input
+  color: var(--bs-primary);
+  font-weight: 600; // Un poco más de peso visual
+}
+
+// Labels en negrita
+.form-label-bold {
+  display: block; // Asegura que ocupe su propia línea
+  margin-bottom: 0.5rem;
+  font-weight: 600; // Bold a veces es mucho, 600 es semi-bold (más elegante)
+  color: var(--bs-gray-700); // Un gris oscuro suele verse mejor que negro puro
+}
+
+// Elemento de la lista de ingredientes
+.item-ingrediente {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // No necesitamos margin aquí porque el list-group de bootstrap ya maneja bordes
+}
+
+// Botón rojo pequeño para borrar ingrediente
+.btn-borrar {
+  
+  // Hacemos el botón un poco más cuadrado/circular si quieres
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%; // Esto lo hace redondo, muy moderno
+}
+
+// Mensaje cuando no hay ingredientes
+.empty-msg {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 0.9rem;
+  background-color: #f8f9fa; // Un fondo muy suave
+}
+

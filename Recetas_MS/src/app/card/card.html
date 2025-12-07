@@ -1,46 +1,57 @@
 <div class="card h-100 position-relative shadow-sm border-0">
   
-  <button
-      type="button"
-      class="btn-close position-absolute top-0 end-0 m-2 bg-white p-2 shadow-sm"
-      aria-label="Eliminar"
-      (click)="eliminar()">
+  <button 
+    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 z-3 rounded-circle btn-eliminar"
+    (click)="onDelete($event)"
+    title="Eliminar receta">
+    <i class="bi bi-x-lg"></i> X 
   </button>
 
-  <img
-    [src]="recipe().imagen || 'assets/img/placeholder.jpg'"
-    class="card-img-top"
+  <img 
+    [src]="recipe().imagen" 
+    class="card-img-top imagen-detalle" 
     [alt]="recipe().nombre"
-    style="height: 200px; object-fit: cover;">
+    (click)="verDetalle()">
 
   <div class="card-body d-flex flex-column">
-    <h5 class="card-title fw-bold text-primary">{{ recipe().nombre }}</h5>
+    <h5 class="card-title">{{ recipe().nombre }}</h5>
     
-    <p class="fw-bold mt-2 mb-1 text-secondary small">Ingredientes:</p>
-
-    <div class="card-text flex-grow-1 mb-3">
-      <ul class="list-unstyled small">
-        @for (ing of recipe().ingredientes; track ing) {
-          <li>• {{ ing }}</li>
-        } @empty {
-          <li class="text-muted fst-italic">Sin ingredientes</li>
-        }
-      </ul>
-    </div>
+  @if (recipe().ingredientes && recipe().ingredientes.length > 0) {
+      <div class="mt-2 mb-3">
+        
+        <h6 class="text-muted titulo-ingredientes">Ingredientes:</h6>
+        
+        <ul class="lista-ingredientes">
+          @for (ing of recipe().ingredientes; track $index) {
+            <li>{{ ing }}</li>
+          }
+        </ul>
+      </div>
+    }
 
     <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
       
-      <app-star-rating 
-          [rating]="recipe().rating || 0" 
-          [readOnly]="false"
-          (ratingClicked)="votar($event)">
-      </app-star-rating>
+      <div 
+        class="rating-trigger" 
+        (click)="verDetalle()" 
+        title="Votar esta receta">
+          <app-star-rating 
+              [rating]="recipe().rating || 0" 
+              [readOnly]="true"> 
+          </app-star-rating>
+      </div>
 
-      <span class="badge rounded-pill bg-light text-secondary border">
-         {{ recipe().votos || 0 }} votos
-      </span>
+      <button class="btn btn-outline-primary btn-sm rounded-pill" (click)="verDetalle()">
+         Votar
+      </button>
       
     </div>
-
   </div>
 </div>
+
+@if (modalAbierto()) {
+  <app-vote-modal 
+    [receta]="recipe()" 
+    (close)="cerrarModal()">
+  </app-vote-modal>
+}

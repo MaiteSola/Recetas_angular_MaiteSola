@@ -1,107 +1,110 @@
-import { Injectable, signal,computed, inject } from '@angular/core';
-import { Receta } from '../models/recetaModel';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Receta } from '../models/recetaModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecetasService {
   
-private http = inject(HttpClient);
+  private http = inject(HttpClient);
+  // URL de tu MockAPI (Base de datos en la nube)
+  private apiUrl = 'https://69303d7e778bbf9e00708054.mockapi.io/recetas/listaRecetas';
 
-private apiUrl = 'https://69303d7e778bbf9e00708054.mockapi.io/recetas/listaRecetas';
-
-
-// 1. Estado privado: Aquí guardamos los datos reales
-  // Inicializamos con tus datos de prueba para que no salga vacío al principio
+  // ==========================================
+  // 1. ESTADO (Signals)
+  // ==========================================
+  
+  // Lista maestra de recetas (Privada para controlar quién la modifica)
   private _recetas = signal<Receta[]>([]);
 
-  // Aquí guardaremos lo que escribas en el buscador del Navbar
-  searchTerm = signal('');
-  minRating = signal(0); //Este el filtro de estrellas 0=todas
+  // Filtros activos
+  searchTerm = signal(''); // Texto del buscador
+  minRating = signal(0);   // Filtro de estrellas (0 = ver todas)
 
+  // ==========================================
+  // 2. SELECTORES (Computed)
+  // ==========================================
 
-  // 3. SELECTOR (Computed): La lista filtrada
-  // Esta variable se recalcula SOLA si cambia _recetas O cambia searchTerm
- recetasFiltradas = computed(() => {
+  // Esta señal se recalcula AUTOMÁTICAMENTE si cambia _recetas, searchTerm o minRating.
+  // Es el corazón de la reactividad de tu app.
+  recetasFiltradas = computed(() => {
     const term = this.searchTerm().toLowerCase();
-    const ratingFilter = this.minRating(); // <--- Leemos la señal
+    const ratingFilter = this.minRating();
     const lista = this._recetas();
 
     return lista.filter(r => {
       const coincideNombre = r.nombre.toLowerCase().includes(term);
-      const coincideRating = (r.rating || 0) >= ratingFilter; // <--- Filtro
+      const coincideRating = (r.rating || 0) >= ratingFilter;
       return coincideNombre && coincideRating;
     });
   });
 
-  
-  filtrarPorEstrellas(estrellas: number) {
-    this.minRating.set(estrellas);
-    console.log('Filtro actualizado a:', estrellas); 
-  }
-
   constructor(){
-
-    this.obtenerRecetas();
+    this.obtenerRecetas(); // Carga inicial
   }
+
+  // ==========================================
+  // 3. ACCIONES (HTTP + Actualización de Estado)
+  // ==========================================
+
+  // GET: Cargar datos iniciales
   obtenerRecetas() {
     this.http.get<Receta[]>(this.apiUrl).subscribe({
       next: (datos) => {
-        console.log('Recetas cargadas:', datos);
-        this._recetas.set(datos); // Actualizamos la signal con los datos reales
+        console.log('✅ Recetas cargadas:', datos);
+        this._recetas.set(datos);
       },
-      error: (err) => console.error('Error al descargar recetas:', err)
+      error: (err) => console.error('❌ Error al cargar:', err)
     });
   }
 
- // POST: Enviar una nueva receta
+  // POST: Crear receta nueva
   agregarReceta(receta: Receta) {
-    // Nota: Aunque le mandes un ID temporal, MockAPI generará uno nuevo y el createdAt automáticamente.
     this.http.post<Receta>(this.apiUrl, receta).subscribe({
       next: (recetaGuardada) => {
-        console.log('Receta creada en la nube:', recetaGuardada);
-        // recetaGuardada ya viene con ID real y createdAt. La metemos en la lista local.
+        console.log('✅ Receta creada:', recetaGuardada);
+        // Actualizamos la lista local añadiendo la nueva (Spread operator)
         this._recetas.update(lista => [...lista, recetaGuardada]);
       },
-      error: (err) => console.error('Error al guardar:', err)
+      error: (err) => console.error('❌ Error al guardar:', err)
     });
   }
 
-  // DELETE: Borrar receta por ID
-  borrarReceta(id: number | string) { // Aceptamos string o number por seguridad
+  // DELETE: Borrar receta
+  borrarReceta(id: string) {
     const url = `${this.apiUrl}/${id}`;
-    
     this.http.delete(url).subscribe({
       next: () => {
-        console.log(`Receta ${id} borrada`);
-        // Actualizamos la lista local quitando el elemento borrado
-        // Usamos doble igual (==) para que funcione aunque uno sea texto y otro número
+        console.log(`🗑️ Receta ${id} borrada`);
+        // Actualizamos la lista local filtrando la que acabamos de borrar
         this._recetas.update(lista => lista.filter(r => r.id != id));
       },
-      error: (err) => console.error('Error al borrar:', err)
+      error: (err) => console.error('❌ Error al borrar:', err)
     });
   }
 
-
-// PUT (Actualizar en Servidor)
+  // PUT: Actualizar receta (usado para votar)
+  // Devuelve un Observable para que el componente (VoteModal) sepa cuándo terminar
   actualizarReceta(id: string, datosActualizados: Partial<Receta>): Observable<Receta> {
     return this.http.put<Receta>(`${this.apiUrl}/${id}`, datosActualizados);
   }
 
-  // ACTUALIZAR ESTADO LOCAL (¡NUEVO E IMPORTANTE!)
-  // Este método lo usaremos después de votar para refrescar la signal
+  // MÉTODO CLAVE: Refrescar una receta específica en la lista local sin recargar todo
   actualizarSignalReceta(recetaActualizada: Receta) {
     this._recetas.update(lista => 
       lista.map(r => r.id === recetaActualizada.id ? recetaActualizada : r)
     );
   }
 
+  // --- MÉTODOS DE UI ---
 
-  // Método para actualizar la búsqueda (lo llamará el Navbar)
   buscar(texto: string) {
     this.searchTerm.set(texto);
   }
 
+  filtrarPorEstrellas(estrellas: number) {
+    this.minRating.set(estrellas);
+  }
 }

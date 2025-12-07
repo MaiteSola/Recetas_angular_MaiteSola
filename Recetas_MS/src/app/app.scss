@@ -1,28 +1,26 @@
-/* 🔹 Reset general */
+/* 🔹 Reset básico vital */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  overflow-x: hidden; /* ¡Tu salvavidas contra el scroll lateral! */
 }
 
-/* 🔹 Estructura base del layout */
+/* 🔹 Layout Sticky Footer (Footer siempre abajo) */
 app-root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* 🔹 Ajustes de contenido */
+/* 🔹 Contenedor principal */
 main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 0;
-  margin: 0; /* elimina cualquier espacio extra */
+  flex: 1;       /* Empuja el footer abajo */
+  display: block; /* Deja que Bootstrap maneje el layout interno */
+  width: 100%;   /* Ocupa todo el ancho */
 }
 
-/* 🔹 Imágenes dentro de .py-5 */
+/* 🔹 Imágenes (opcional, si te servía déjalo) */
 .py-5 img {
   max-width: 250px;
   display: block;

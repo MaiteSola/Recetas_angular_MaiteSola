@@ -1,0 +1,67 @@
+// 1. EL FONDO OSCURO (BACKDROP)
+.custom-modal-backdrop {
+  position: fixed;   // 👈 CLAVE: Se fija a la PANTALLA, no a la tarjeta
+  top: 0;
+  left: 0;
+  width: 100vw;      // 100% del ancho de la ventana
+  height: 100vh;     // 100% del alto de la ventana
+  background-color: rgba(0, 0, 0, 0.5); // Negro al 50% de opacidad
+  z-index: 1055;     // 👈 CLAVE: Un número muy alto para estar ENCIMA del Navbar y todo lo demás
+  
+  // Para centrar el cuadro blanco en medio de la pantalla
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  // Animación suave de aparición (opcional)
+  animation: fadeIn 0.3s ease-out;
+}
+
+// 2. EL CUADRO BLANCO DEL MODAL
+.custom-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;        // En móviles ocupa casi todo
+  max-width: 500px;  // En PC no se hace gigante
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2); // Sombra elegante
+  position: relative; // Para poder posicionar el botón de cerrar
+  
+  // Animación de entrada (un pequeño salto hacia arriba)
+  animation: slideUp 0.3s ease-out;
+}
+
+// 3. BOTÓN DE CERRAR (X)
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  
+  &:hover {
+    color: #000;
+  }
+}
+
+// ANIMACIONES
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+// Estilo para la imagen de la receta dentro del modal
+.img-modal {
+  height: 150px;
+  width: 100%;       // Opcional: para asegurar que ocupe el ancho disponible si es necesario
+  object-fit: cover; // Para que no se deforme
+  object-position: center;
+}

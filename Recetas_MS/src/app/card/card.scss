@@ -1,3 +1,4 @@
+// 1. Estilos generales de la Card
 .card-img-top {
   height: 180px;
   width: 100%;
@@ -8,7 +9,80 @@
 .card-body {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  // justify-content: flex-start; // No es necesario si usamos mt-auto abajo
 }
 
-/* h-100 ya está en la clase card */
+// 2. Estilo para el botón de eliminar (La "X")
+.btn-eliminar {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  // position y z-index los dejamos en HTML con Bootstrap por ser utilidades
+}
+
+// 3. Estilo para la imagen principal
+.imagen-detalle {
+  height: 200px;
+  object-fit: cover;
+  cursor: pointer; // ✅ Aquí definimos el cursor, no en el HTML
+  transition: opacity 0.2s, transform 0.2s; 
+
+  &:hover {
+    opacity: 0.9;
+    transform: scale(1.02); 
+  }
+}
+
+// 4. Estilo para el contenedor de rating
+.rating-trigger {
+  cursor: pointer; // ✅ Cursor controlado aquí
+  transition: transform 0.2s;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+// 5. Título con puntos suspensivos (...) si es muy largo
+.card-title {
+  font-weight: bold;
+  
+  // Truco para limitar a 2 líneas
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// 6. Lista de ingredientes (NUEVO)
+.lista-ingredientes {
+  font-size: 0.9rem;
+  color: #555;
+  padding-left: 1.2rem; // Espacio para las viñetas
+  margin-bottom: 1rem;
+  
+  li {
+    margin-bottom: 0.2rem;
+  }
+}
+
+// Estilo para el título "Ingredientes"
+.titulo-ingredientes {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px; // Un pequeño toque extra de elegancia
+  margin-bottom: 0.5rem;
+}
+
+// Asegúrate de que .lista-ingredientes esté también como te pasé antes
+.lista-ingredientes {
+  font-size: 0.9rem;
+  color: #555;
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+  
+  li {
+    margin-bottom: 0.2rem;
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, inject, output, Output } from '@angular/core';
+import { Component, inject, output } from '@angular/core'; // Limpiado: quitado 'Output'
 import { Receta } from '../models/recetaModel';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -6,60 +6,68 @@ import { RecetasService } from '../services/recetas';
 
 @Component({
   selector: 'app-form',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './form.html',
   styleUrl: './form.scss',
 })
 export class Form {
   
- // 1. Inyectamos el servicio
+  // 1. INYECCIÓN DE DEPENDENCIAS
   private recetasService = inject(RecetasService);
 
-  // 2. Output solo para avisar de cerrar (no enviamos datos, el servicio se encarga)
+  // 2. COMUNICACIÓN (OUTPUT)
+  // Avisamos al padre para cerrar (no enviamos datos, solo el evento)
   cancel = output<void>();
 
-  // 3. Variables del formulario (EN ESPAÑOL, como tu modelo)
+  // 3. MODELO DEL FORMULARIO
+  // Variables vinculadas con [(ngModel)] en el HTML
   nombre = '';
   imagen = '';
   nuevoIngrediente = '';
   ingredientes: string[] = [];
 
   // --- LÓGICA DE INGREDIENTES ---
+
+  // Añade un ingrediente a la lista local si no está vacío
   addIngrediente() {
     if (this.nuevoIngrediente.trim()) {
       this.ingredientes.push(this.nuevoIngrediente.trim());
-      this.nuevoIngrediente = '';
+      this.nuevoIngrediente = ''; // Limpiamos el input para seguir escribiendo
     }
   }
 
+  // Borra un ingrediente por su índice
   removeIngrediente(index: number) {
     this.ingredientes.splice(index, 1);
   }
 
-  // --- GUARDAR ---
+  // --- GUARDADO ---
+
   guardar() {
-    // Validar
+    // Validación simple: Si no hay nombre, no hacemos nada
     if (!this.nombre.trim()) return;
 
+    // Creamos el objeto receta
+    // Nota: Convertimos id a string para asegurar compatibilidad con la API
     const nueva: Receta = {
-      id: Date.now(),
+      id: Date.now().toString(),
       nombre: this.nombre,
-      ingredientes: [...this.ingredientes],
+      ingredientes: [...this.ingredientes], // Copia del array
       imagen: this.imagen,
-      rating:0,
-      votos:0
-    
+      rating: 0, // Inicializamos a 0 estrellas
+      votos: 0   // Inicializamos a 0 votos
     };
 
-    // Guardamos en el almacén central
+    // Enviamos al servicio
     this.recetasService.agregarReceta(nueva);
 
-    // Limpiamos
+    // Limpiamos el formulario (Reset)
     this.nombre = '';
     this.imagen = '';
     this.ingredientes = [];
 
-    // Avisamos al padre (Navbar) para que cierre la ventana
+    // Cerramos el modal
     this.cancel.emit();
   }
 

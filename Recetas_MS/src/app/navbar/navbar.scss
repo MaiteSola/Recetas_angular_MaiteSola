@@ -1,3 +1,5 @@
+
+
 .custom-modal-backdrop {
   position: fixed;
   top: 0;
@@ -55,4 +57,30 @@
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+// Ajuste para la cajita blanca de las estrellas
+.filter-container {
+  height: 38px;
+  // El resto de estilos (bg-white, border, etc.) vienen de Bootstrap en el HTML
+}
+
+// Botón de limpiar filtro (la X roja)
+.btn-clear {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.2); // Pequeño zoom al pasar el ratón
+  }
+}
+
+// Elementos genéricos clicables (como el enlace 'Nueva Receta')
+.clickable {
+  cursor: pointer;
+  
+  &:hover {
+    color: var(--bs-primary); // Usa el color primario de Bootstrap (azul por defecto)
+    text-decoration: underline;
+  }
 }

@@ -1,43 +1,57 @@
 <nav class="navbar navbar-expand-xl navbar-light bg-light fixed-top w-100 shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="#">Recetas de Maite</a>
 
-    <div class="d-flex ms-auto order-xl-last align-items-center gap-2">
+    <a class="navbar-brand fw-bold text-truncate" href="#">
+      Recetas de Maite
+    </a>
+
+    <button class="navbar-toggler ms-auto" type="button" (click)="toggleMenu()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="menuOpen">
+      
+      <ul class="navbar-nav me-auto mb-2 mb-xl-0"> 
+        <li class="nav-item">
+            <a class="nav-link fw-bold btn btn-outline-secondary text-start px-3 mt-2 mt-xl-0" 
+               role="button" 
+               (click)="openModal()">
+              + Nueva Receta
+            </a>
+        </li>
+      </ul>
+
+      <div class="d-flex my-3 my-xl-0 me-xl-3">
         <input 
-            class="form-control me-2" 
+            class="form-control" 
             type="search" 
             placeholder="Buscar..." 
             [(ngModel)]="searchTerm" 
             (input)="onSearch()">
-        <div class="d-none d-md-flex align-items-center bg-white border rounded px-2 py-1" style="height: 38px;">
-            <app-star-rating 
-                [rating]="recetasService.minRating()" 
-                [readOnly]="false"
-                (ratingClicked)="filtrarPorEstrellas($event)">
-            </app-star-rating>
-            
-            @if (recetasService.minRating() > 0) {
-                <span 
-                    class="ms-2 text-danger fw-bold" 
-                    style="cursor: pointer;" 
-                    (click)="filtrarPorEstrellas(0)">
-                    ✕
-                </span>
-            }
-        </div>
+      </div>
 
-        
-    </div>
-    <button class="navbar-toggler" type="button" (click)="toggleMenu()">
-       <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" [class.show]="menuOpen">
-       <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-             <a class="nav-link" style="cursor: pointer;" (click)="openModal()">Nueva Receta</a>
-          </li>
-       </ul>
+      <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center bg-white border rounded px-2 py-1 text-nowrap w-100 justify-content-between justify-content-xl-start">
+              <span class="me-2 text-muted small">Filtrar:</span>
+              
+              <app-star-rating 
+                  [rating]="recetasService.minRating()" 
+                  [readOnly]="false"
+                  (ratingClicked)="filtrarPorEstrellas($event)">
+              </app-star-rating>
+              
+              @if (recetasService.minRating() > 0) {
+                  <span 
+                      class="ms-2 text-danger fw-bold cursor-pointer" 
+                      role="button"
+                      (click)="filtrarPorEstrellas(0)"
+                      title="Borrar filtro">
+                      ✕
+                  </span>
+              }
+          </div>
+      </div>
+
     </div>
   </div>
 </nav>
@@ -47,7 +61,7 @@
     <div class="custom-modal" (click)="$event.stopPropagation()">
       <div class="modal-header">
         <h5>Crear Nueva Receta</h5>
-        <button class="close-btn" (click)="closeModal()">X</button>
+        <button class="btn-close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
         <app-form (cancel)="closeModal()"></app-form>

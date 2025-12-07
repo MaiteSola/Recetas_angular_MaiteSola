@@ -1,0 +1,43 @@
+<div class="custom-modal-backdrop" (click)="cancelar()">
+  <div class="custom-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h5 class="fw-bold">{{ receta().nombre }}</h5>
+      <button class="close-btn" (click)="cancelar()">✕</button>
+    </div>
+
+    <div class="modal-body text-center">
+      <img 
+        [src]="receta().imagen" 
+        class="img-thumbnail mb-3 img-modal" 
+        [alt]="receta().nombre">
+      
+      <p>Valoración actual: <strong>{{ receta().rating | number:'1.1-1' }}</strong> ({{ receta().votos }} votos)</p>
+      
+      <hr>
+
+      <h6 class="mb-3">¡Deja tu voto!</h6>
+      
+      <div class="d-flex justify-content-center mb-4">
+        <app-star-rating 
+          [rating]="puntuacionSeleccionada()" 
+          [readOnly]="false" 
+          (ratingClicked)="actualizarPuntuacionTemp($event)">
+        </app-star-rating>
+      </div>
+
+      <button 
+        class="btn btn-primary w-100" 
+        [disabled]="puntuacionSeleccionada() === 0 || enviando()"
+        (click)="confirmarVoto()">
+        
+        @if (enviando()) {
+          Enviando...
+        } @else {
+          Enviar Voto ({{ puntuacionSeleccionada() }} ⭐)
+        }
+      </button>
+
+    </div>
+  </div>
+</div>
