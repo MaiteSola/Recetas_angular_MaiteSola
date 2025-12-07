@@ -45,7 +45,10 @@ export class Form {
       id: Date.now(),
       nombre: this.nombre,
       ingredientes: [...this.ingredientes],
-      imagen: this.imagen
+      imagen: this.imagen,
+      rating:0,
+      votos:0
+    
     };
 
     // Guardamos en el almacén central

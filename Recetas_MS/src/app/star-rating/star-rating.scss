@@ -1,0 +1,31 @@
+.rating-container {
+  display: inline-flex; // Para que se alineen horizontalmente
+  align-items: center;
+  gap: 5px;
+  
+  &.disabled {
+    pointer-events: none; // Si es readonly, el ratón no interactúa
+  }
+}
+
+.star {
+  font-size: 1.5rem;
+  color: #ccc; // Gris (vacía)
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &.filled {
+    color: #FFD700; // Dorado (llena)
+  }
+
+  // Efecto hover solo si no es readOnly
+  &:hover, &:hover ~ .star {
+    color: #FFED85; // Un dorado más clarito al pasar el ratón (opcional)
+  }
+}
+
+.rating-number {
+  font-size: 0.9rem;
+  color: #666;
+  margin-left: 8px;
+}

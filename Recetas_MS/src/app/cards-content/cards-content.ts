@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Card } from "../card/card";
 import { RecetasService } from '../services/recetas';
+import { Receta } from '../models/recetaModel';
+import { StarRating } from '../star-rating/star-rating';
 
 
 
@@ -22,4 +24,5 @@ export class CardsContent {
     this.recetasService.borrarReceta(id);
   }
 
+    
 }

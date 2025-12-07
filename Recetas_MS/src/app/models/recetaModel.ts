@@ -3,5 +3,8 @@ export interface Receta {
   nombre: string;
   ingredientes: string[];
   imagen?: string;
+  rating:number;
+  votos:number;
   createdAt?: string;
+
 }

@@ -1,6 +1,7 @@
 import { Injectable, signal,computed, inject } from '@angular/core';
 import { Receta } from '../models/recetaModel';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,21 @@ private apiUrl = 'https://69303d7e778bbf9e00708054.mockapi.io/recetas/listaRecet
       error: (err) => console.error('Error al borrar:', err)
     });
   }
+
+
+// PUT (Actualizar en Servidor)
+  actualizarReceta(id: string, datosActualizados: Partial<Receta>): Observable<Receta> {
+    return this.http.put<Receta>(`${this.apiUrl}/${id}`, datosActualizados);
+  }
+
+  // ACTUALIZAR ESTADO LOCAL (¡NUEVO E IMPORTANTE!)
+  // Este método lo usaremos después de votar para refrescar la signal
+  actualizarSignalReceta(recetaActualizada: Receta) {
+    this._recetas.update(lista => 
+      lista.map(r => r.id === recetaActualizada.id ? recetaActualizada : r)
+    );
+  }
+
 
   // Método para actualizar la búsqueda (lo llamará el Navbar)
   buscar(texto: string) {
